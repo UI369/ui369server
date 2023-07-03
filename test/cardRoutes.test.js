@@ -11,6 +11,18 @@ describe('Card Routes', function () {
     expect(response.body).to.be.an('array');
   });
 
+  it('should GET a specific card', async function () {
+    const response = await request
+      .post('/cards')
+      .send({ title: 'Test Card', description: 'Test Description' });
+
+    const response2 = await request.get('/cards/1');
+
+    expect(response2.status).to.equal(200);
+    expect(response2.body).to.have.property('title', 'Test Card');
+    expect(response2.body).to.have.property('description', 'Test Description');
+  });
+
   it('should POST a new card', async function () {
     const response = await request
       .post('/cards')
