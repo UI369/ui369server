@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 //const cardStore = require('./stores/cardStore');
 const routes = require('./routes/routes');
@@ -16,8 +17,8 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const server = app.listen(3000, () =>
-  console.log('Server started on port 3000'),
+const server = app.listen(process.env.PORT, () =>
+  console.log(`Server started on port ${process.env.PORT}`),
 );
 
 // export app
