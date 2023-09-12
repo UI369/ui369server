@@ -1,12 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 //const cardStore = require('./stores/cardStore');
 const routes = require('./routes/routes');
-
+const security = require('./security');
 const app = express();
 
 // Middleware
 app.use(express.json());
-
+security(app);
 // Routes
 app.use('/', routes);
 
