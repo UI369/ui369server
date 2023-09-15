@@ -1,3 +1,5 @@
+const DataAccessInterface = require('./dataAccessInterface');
+
 let players = [
   {
     id: 1,
@@ -16,7 +18,7 @@ let players = [
   },
 ];
 
-module.exports = class playerStoreMock extends PlayerDataAccessInterface {
+module.exports = class playerStoreMock extends DataAccessInterface {
   findAll() {
     return players;
   }

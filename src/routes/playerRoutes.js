@@ -1,5 +1,6 @@
 const express = require('express');
-const playerStore = require('../stores/playerStore');
+const storeFactory = require('../stores/dataAccessFactory');
+const playerStore = storeFactory.getDataAccess().playerStore;
 
 const router = express.Router();
 

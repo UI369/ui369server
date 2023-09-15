@@ -1,6 +1,6 @@
 const express = require('express');
-const teamStore = require('../stores/teamStore');
-
+const storeFactory = require('../stores/dataAccessFactory');
+const teamStore = storeFactory.getDataAccess().teamStore;
 const router = express.Router();
 
 router.get('/', (req, res) => {
