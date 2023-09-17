@@ -54,4 +54,24 @@ module.exports = class playerStoreMock extends DataAccessInterface {
     players[index] = { ...players[index], ...updatedPlayer };
     return players[index];
   }
+
+  reset() {
+    players = [
+      {
+        id: 1,
+        playerName: 'Player 1',
+        height: 62,
+      },
+      {
+        id: 2,
+        playerName: 'Player 2',
+        height: 72,
+      },
+      {
+        id: 3,
+        playerName: 'Player 3',
+        height: 82,
+      },
+    ];
+  }
 };

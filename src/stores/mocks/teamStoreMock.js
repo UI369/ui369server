@@ -60,6 +60,38 @@ module.exports = class teamStoreMock extends DataAccessInterface {
     return (teams = []);
   }
 
+  reset() {
+    teams = [
+      {
+        id: 1,
+        teamName: 'Team 1',
+        players: [
+          { playerName: 'Reginald' },
+          { playerName: 'Bob' },
+          { playerName: 'Mike S.' },
+        ],
+      },
+      {
+        id: 2,
+        teamName: 'Team 2',
+        players: [
+          { playerName: 'Archibald' },
+          { playerName: 'Stan' },
+          { playerName: 'Mike A.' },
+        ],
+      },
+      {
+        id: 3,
+        teamName: 'Team 3',
+        players: [
+          { playerName: 'Archibaldo' },
+          { playerName: 'Stank' },
+          { playerName: 'Mikey A.' },
+        ],
+      },
+    ];
+  }
+
   update(id, updatedTeam) {
     const index = teams.findIndex((team) => team.id === id);
     if (index === -1) return null;
