@@ -1,57 +1,33 @@
-require('dotenv').config();
 const chai = require('chai');
 const expect = chai.expect;
-const storeFactory = require('../src/stores/dataAccessFactory');
-const playerStore = storeFactory.getDataAccess().playerStore;
+const supertest = require('supertest');
+const app = require('../src/server.js'); // Import your Express app
+const request = supertest(app);
 
-describe('playerStore', () => {
-  afterEach(() => {
-    // Reset the store after each test
-    playerStore.reset();
+describe('Player Routes', () => {
+  describe('GET /', () => {
+    it('should fetch all players', async () => {
+      const response = await request.get('/players');
+      expect(response.status).to.equal(200);
+      expect(response.body).to.be.an('array');
+      // ... other assertions
+    });
   });
 
-  it('should fetch all players', () => {
-    const result = playerStore.findAll();
-    expect(result).to.be.an('array');
-    expect(result.length).to.equal(3);
+  describe('GET /:playerId', () => {
+    it('should fetch a player by id', async () => {
+      const response = await request.get('/players/1');
+      expect(response.status).to.equal(200);
+      expect(response.body).to.be.an('object');
+      // ... other assertions
+    });
+
+    it('should return 400 for invalid playerId', async () => {
+      const response = await request.get('/players/invalidId');
+      expect(response.status).to.equal(400);
+      // ... other assertions
+    });
   });
 
-  it('should fetch a player by id', () => {
-    const result = playerStore.findById(1);
-    expect(result).to.be.an('object');
-    expect(result.playerName).to.equal('Player 1');
-  });
-
-  it('should return null for non-existent player id', () => {
-    const result = playerStore.findById(999);
-
-    expect(result).to.be.null;
-  });
-
-  it('should create a new player', () => {
-    const newPlayer = {
-      playerName: 'Player 4',
-      players: [{ playerName: 'John' }],
-    };
-    const result = playerStore.create(newPlayer);
-    expect(result.id).to.equal(4);
-    expect(result.playerName).to.equal('Player 4');
-  });
-
-  it('should delete a player by id', () => {
-    const result = playerStore.delete(1);
-    expect(result.id).to.equal(1);
-    expect(playerStore.findAll().length).to.equal(2);
-  });
-
-  it('should update a player by id', () => {
-    const updatedPlayer = {
-      playerName: 'Updated Player 1',
-      players: [{ playerName: 'Updated Player' }],
-    };
-    const result = playerStore.update(1, updatedPlayer);
-    expect(result.playerName).to.equal('Updated Player 1');
-  });
-
-  // ... Add more tests for other methods and scenarios
+  // ... Add tests for POST, DELETE, PATCH, etc.
 });

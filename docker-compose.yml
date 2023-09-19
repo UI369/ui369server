@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: hooprunner_container
+    environment:
+      POSTGRES_PASSWORD: ${DB_PW}
+      POSTGRES_DB: hooprunner_test
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./src/init.sql:/docker-entrypoint-initdb.d/init.sql
