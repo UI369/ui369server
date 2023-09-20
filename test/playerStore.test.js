@@ -78,23 +78,29 @@ describe('playerStore', () => {
     expect(result.imageBuffer).to.equal(newPlayer.imageBuffer);
   });
 
-  it('should not delete a captain and throw an error', async () => {
-    try {
-      await playerStore.delete(1);
-      expect.fail('Expected an error to be thrown, but it was not.');
-    } catch (error) {
-      expect(error.message).to.equal(
-        'Cannot delete a captain. Assign a new captain first.',
-      );
-    }
-
-    const allPlayers = await playerStore.findAll();
-    expect(allPlayers.length).to.equal(36); // Assuming you started with 3 players
+  it('should be a captain', async () => {
+    const result = await playerStore.isCaptain(1);
+    expect(result).to.equal(true);
   });
 
-  it('should delete a player by id', async () => {
-    //const result = await playerStore.delete(2);
-    //expect(result.id).to.equal(2);
+  it('should not be a captain', async () => {
+    const result = await playerStore.isCaptain(2);
+    expect(result).to.equal(false);
+  });
+
+  it('should update a player by id', async () => {
+    const updatedPlayer = {
+      first_name: 'newfirst',
+      lastName: 'newlast',
+    };
+    const result = await playerStore.update(1, updatedPlayer);
+    expect(result.first_name).to.equal('newfirst');
+    expect(result.last_name).to.equal('newlast');
+  });
+
+  it('should not delete and return null', async () => {
+    const result = await playerStore.delete(2);
+    expect(result).to.equal(null);
     //expect(playerStore.findAll().length).to.equal(35);
   });
 

@@ -15,7 +15,8 @@ CREATE TABLE Players (
     weight INTEGER,
     birthdate DATE NOT NULL,
     comment TEXT,
-    pic BYTEA
+    pic BYTEA,
+    hidden BOOLEAN DEFAULT FALSE;
 );
 
 -- Create an ENUM type for player positions

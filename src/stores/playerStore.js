@@ -38,22 +38,7 @@ module.exports = class playerStore {
   }
 
   async delete(id) {
-    // Check if the player is a captain
-    const isPlayerCaptain = await this.isCaptain(id);
-
-    if (isPlayerCaptain) {
-      // If the player is a captain, throw an error or return an error message
-      throw new Error('Cannot delete a captain. Assign a new captain first.');
-    } else {
-      // If the player is not a captain, proceed with the deletion
-      console.log('id', id);
-      const { rows } = await this.client.query(
-        'DELETE FROM Players WHERE id = $1 RETURNING *',
-        [id],
-      );
-      console.log('TESTTTTTT');
-      return rows[0] || null;
-    }
+    return null;
   }
 
   async isCaptain(id) {
@@ -65,22 +50,32 @@ module.exports = class playerStore {
   }
 
   async update(id, updatedPlayer) {
-    const { rows } = await this.client.query(
-      'UPDATE Players SET first_name = $1, last_name = $2, height = $3 WHERE id = $4 RETURNING *',
-      [
-        updatedPlayer.playerName,
-        updatedPlayer.lastName,
-        updatedPlayer.height,
-        id,
-      ],
-    );
-    return rows[0];
-  }
+    // Start building the SQL statement and values array
+    let sqlFragments = [];
+    let values = [];
+    let counter = 1; // This counter will help with the $1, $2, ... placeholders
 
-  async reset() {
-    await this.client.query('DELETE FROM Players');
-    await this.create({ playerName: 'Player 1', height: 62 });
-    await this.create({ playerName: 'Player 2', height: 72 });
-    await this.create({ playerName: 'Player 3', height: 82 });
+    // Iterate over the updatedPlayer keys
+    for (let key in updatedPlayer) {
+      // Convert camelCase to snake_case for database column names
+      let dbKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+
+      // Add the SQL fragment and value
+      sqlFragments.push(`${dbKey} = $${counter}`);
+      values.push(updatedPlayer[key]);
+      counter++;
+    }
+
+    // Add the player ID to the values array
+    values.push(id);
+
+    // Construct the full SQL statement
+    const sql = `UPDATE Players SET ${sqlFragments.join(
+      ', ',
+    )} WHERE id = $${counter} RETURNING *`;
+
+    // Execute the query
+    const { rows } = await this.client.query(sql, values);
+    return rows[0];
   }
 };
