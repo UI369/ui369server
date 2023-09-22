@@ -12,7 +12,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-describe('teamStore', () => {
+describe('Team Store DB', () => {
   beforeEach(async () => {
     // Start a transaction before each test
     client = await pool.connect();

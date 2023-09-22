@@ -13,7 +13,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-describe('playerStore', () => {
+describe('Player Store DB', () => {
   beforeEach(async () => {
     // Start a transaction before each test
     client = await pool.connect();

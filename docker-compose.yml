@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  postgres:
+  dockerdb:
     image: postgres
     container_name: hooprunner_container
     environment:
@@ -11,3 +11,4 @@ services:
       - '5432:5432'
     volumes:
       - ./src/init.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: 'host'

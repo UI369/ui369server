@@ -4,7 +4,7 @@ const expect = chai.expect;
 const storeFactory = require('../src/stores/dataAccessFactory');
 const teamStore = storeFactory.getDataAccess().teamStore;
 
-describe('teamStore', () => {
+describe('Team Store Mock', () => {
   afterEach(() => {
     // Reset the store after each test
     teamStore.reset();

@@ -4,8 +4,8 @@ const expect = chai.expect;
 const PlayerStore = require('../src/stores/mocks/playerStoreMock.js');
 let client, playerStore;
 
-describe('Player Store Mock Tests', () => {
-  beforeEach(() => {
+describe('Player Store Mock', () => {
+  afterEach(() => {
     // Reset the store after each test
     playerStore = new PlayerStore(client);
   });
