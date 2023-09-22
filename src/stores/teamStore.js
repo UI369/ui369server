@@ -1,101 +1,71 @@
-const DataAccessInterface = require('./dataAccessInterface');
+const pool = require('./database');
 
-let teams = [
-  {
-    id: 1,
-    teamName: 'Team 1',
-    players: [
-      { playerName: 'Reginald' },
-      { playerName: 'Bob' },
-      { playerName: 'Mike S.' },
-    ],
-  },
-  {
-    id: 2,
-    teamName: 'Team 2',
-    players: [
-      { playerName: 'Archibald' },
-      { playerName: 'Stan' },
-      { playerName: 'Mike A.' },
-    ],
-  },
-  {
-    id: 3,
-    teamName: 'Team 3',
-    players: [
-      { playerName: 'Archibaldo' },
-      { playerName: 'Stank' },
-      { playerName: 'Mikey A.' },
-    ],
-  },
-];
-
-module.exports = class teamStore extends DataAccessInterface {
-  findAll() {
-    return teams;
+module.exports = class TeamStore {
+  constructor(client) {
+    this.client = client || pool;
   }
 
-  findById(id) {
-    return (
-      teams.find((team) => {
-        return team.id === id;
-      }) || null
+  async findAll() {
+    const { rows } = await this.client.query('SELECT * FROM Teams');
+    return rows;
+  }
+
+  async findById(id) {
+    const { rows } = await this.client.query(
+      'SELECT * FROM Teams WHERE id = $1',
+      [id],
     );
+    return rows[0] || null;
   }
 
-  create(team) {
-    team.id = teams.length + 1;
-    teams.push(team);
-    return team;
+  async create(team) {
+    const { rows } = await this.client.query(
+      'INSERT INTO Teams (team_name, captain_id, season_id) VALUES ($1, $2, $3) RETURNING *',
+      [team.team_name, team.captain_id, team.season_id],
+    );
+
+    return rows[0];
   }
 
-  delete(id) {
-    const index = teams.findIndex((team) => team.id === id);
-    if (index === -1) return null;
-    const [removed] = teams.splice(index, 1);
-    return removed;
+  async delete(id) {
+    return null;
   }
 
-  clear() {
-    return (teams = []);
+  async getCaptain(teamId) {
+    const { rows } = await this.client.query(
+      'SELECT captain_id FROM Teams WHERE id = $1',
+      [teamId],
+    );
+    return rows[0] ? rows[0].captain_id : null;
   }
 
-  update(id, updatedTeam) {
-    const index = teams.findIndex((team) => team.id === id);
-    if (index === -1) return null;
-    teams[index] = { ...teams[index], ...updatedTeam };
-    return teams[index];
-  }
+  async update(id, updatedTeam) {
+    // Build an SQL statement that can take an updatedTeam object that uses snake_case or camelCase for property names
+    let sqlFragments = [];
+    let values = [];
+    let counter = 1; // This counter will help with the $1, $2, ... placeholders
 
-  reset() {
-    teams = [
-      {
-        id: 1,
-        teamName: 'Team 1',
-        players: [
-          { playerName: 'Reginald' },
-          { playerName: 'Bob' },
-          { playerName: 'Mike S.' },
-        ],
-      },
-      {
-        id: 2,
-        teamName: 'Team 2',
-        players: [
-          { playerName: 'Archibald' },
-          { playerName: 'Stan' },
-          { playerName: 'Mike A.' },
-        ],
-      },
-      {
-        id: 3,
-        teamName: 'Team 3',
-        players: [
-          { playerName: 'Archibaldo' },
-          { playerName: 'Stank' },
-          { playerName: 'Mikey A.' },
-        ],
-      },
-    ];
+    // Iterate over the updatedTeam keys
+    for (let key in updatedTeam) {
+      // Convert camelCase to snake_case for database column names
+      let dbKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+
+      // Add the SQL fragment and value
+      sqlFragments.push(`${dbKey} = $${counter}`);
+      values.push(updatedTeam[key]);
+      counter++;
+    }
+
+    // Add the team ID to the values array
+    values.push(id);
+
+    // Construct the full SQL statement
+    const sql = `UPDATE Teams SET ${sqlFragments.join(
+      ', ',
+    )} WHERE id = $${counter} RETURNING *`;
+
+    // Execute the query
+    const { rows } = await this.client.query(sql, values);
+    return rows[0];
   }
 };

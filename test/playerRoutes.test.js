@@ -4,7 +4,7 @@ const supertest = require('supertest');
 const app = require('../src/server.js'); // Import your Express app
 const request = supertest(app);
 
-describe('Player Routes', () => {
+describe('Player Routes Tests', () => {
   describe('GET /', () => {
     it('should fetch all players', async () => {
       const response = await request.get('/players');

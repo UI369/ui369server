@@ -1,13 +1,13 @@
 require('dotenv').config();
 const chai = require('chai');
 const expect = chai.expect;
-const storeFactory = require('../src/stores/dataAccessFactory');
-const playerStore = storeFactory.getDataAccess().playerStore;
+const PlayerStore = require('../src/stores/mocks/playerStoreMock.js');
+let client, playerStore;
 
-describe('playerStore', () => {
-  afterEach(() => {
+describe('Player Store Mock Tests', () => {
+  beforeEach(() => {
     // Reset the store after each test
-    playerStore.reset();
+    playerStore = new PlayerStore(client);
   });
 
   it('should fetch all players', () => {
@@ -31,7 +31,6 @@ describe('playerStore', () => {
   it('should create a new player', () => {
     const newPlayer = {
       playerName: 'Player 4',
-      players: [{ playerName: 'John' }],
     };
     const result = playerStore.create(newPlayer);
     expect(result.id).to.equal(4);

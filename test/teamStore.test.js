@@ -29,7 +29,6 @@ describe('teamStore', () => {
   it('should fetch all teams', async () => {
     const result = await teamStore.findAll();
     expect(result).to.be.an('array');
-    console.log('result', result);
     expect(result.length).to.equal(4);
   });
 
@@ -37,7 +36,7 @@ describe('teamStore', () => {
     const result = await teamStore.findById(1);
     expect(result).to.be.an('object');
     // Add more assertions based on your team attributes
-    expect(result.name).to.equal('Team A');
+    expect(result.team_name).to.equal('Team A');
   });
 
   it('should return null for non-existent team id', async () => {
@@ -47,8 +46,9 @@ describe('teamStore', () => {
 
   it('should add a team', async () => {
     const newTeam = {
-      name: 'New Team',
-      // ... other team attributes
+      team_name: 'New Team',
+      captain_id: 1,
+      season_id: 1,
     };
 
     const result = await teamStore.create(newTeam);
@@ -59,19 +59,19 @@ describe('teamStore', () => {
 
   it('should update a team by id', async () => {
     const updatedTeam = {
-      name: 'Updated Team',
-      // ... other attributes to update
+      team_name: 'Updated Team',
+      captainId: 2,
+      season_id: 1,
     };
     const result = await teamStore.update(1, updatedTeam);
-    expect(result.name).to.equal('Updated Team');
-    // ... other assertions
+    expect(result.team_name).to.equal('Updated Team');
+    expect(result.captain_id).to.equal(2);
+    expect(result.season_id).to.equal(1);
   });
 
-  it('should delete a team and return null', async () => {
-    const result = await teamStore.delete(2);
+  it('should not delete a team and return null', async () => {
+    const result = await teamStore.delete(1);
     expect(result).to.equal(null);
-    // If you want to check the count after deletion:
-    // expect(teamStore.findAll().length).to.equal(9);
   });
 
   // Continue with tests for other methods if any.

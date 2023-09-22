@@ -41,6 +41,7 @@ module.exports = class playerStoreMock extends DataAccessInterface {
     const index = players.findIndex((player) => player.id === id);
     if (index === -1) return null;
     const [removed] = players.splice(index, 1);
+    console.log('players', players);
     return removed;
   }
 

@@ -64,7 +64,6 @@ describe('playerStore', () => {
     };
 
     const result = await playerStore.create(newPlayer);
-    console.log('result.name', result.name);
     expect(result).to.be.an('object');
     expect(result.name).to.be.undefined;
     expect(result.first_name).to.equal(newPlayer.first_name);
