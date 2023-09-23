@@ -18,15 +18,6 @@ module.exports = class TeamStore {
     return rows[0] || null;
   }
 
-  async create(team) {
-    const { rows } = await this.client.query(
-      'INSERT INTO Teams (team_name, captain_id, season_id) VALUES ($1, $2, $3) RETURNING *',
-      [team.team_name, team.captain_id, team.season_id],
-    );
-
-    return rows[0];
-  }
-
   async delete(id) {
     return null;
   }
@@ -37,6 +28,36 @@ module.exports = class TeamStore {
       [teamId],
     );
     return rows[0] ? rows[0].captain_id : null;
+  }
+
+  // Create function
+  async create(newTeam) {
+    // Build an SQL statement that can take a newTeam object that uses snake_case or camelCase for property names
+    let columns = [];
+    let placeholders = [];
+    let values = [];
+    let counter = 1; // This counter will help with the $1, $2, ... placeholders
+
+    // Iterate over the newTeam keys
+    for (let key in newTeam) {
+      // Convert camelCase to snake_case for database column names
+      let dbKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+
+      // Add the column, placeholder, and value
+      columns.push(dbKey);
+      placeholders.push(`$${counter}`);
+      values.push(newTeam[key]);
+      counter++;
+    }
+
+    // Construct the full SQL statement
+    const sql = `INSERT INTO Teams (${columns.join(
+      ', ',
+    )}) VALUES (${placeholders.join(', ')}) RETURNING *`;
+
+    // Execute the query
+    const { rows } = await this.client.query(sql, values);
+    return rows[0];
   }
 
   async update(id, updatedTeam) {
@@ -66,6 +87,7 @@ module.exports = class TeamStore {
 
     // Execute the query
     const { rows } = await this.client.query(sql, values);
+
     return rows[0];
   }
 };

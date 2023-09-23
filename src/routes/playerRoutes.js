@@ -5,7 +5,15 @@ const playerStore = storeFactory.getDataAccess().playerStore;
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  res.json(playerStore.findAll());
+  playerStore
+    .findAll()
+    .then((players) => {
+      res.json(players);
+    })
+    .catch((error) => {
+      console.error('Error fetching players:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    });
 });
 
 router.get('/:playerId', (req, res) => {
@@ -18,28 +26,36 @@ router.get('/:playerId', (req, res) => {
     return;
   }
 
-  res.status(200).json(playerStore.findById(playerId));
+  playerStore
+    .findById(playerId)
+    .then((player) => {
+      res.json(player);
+    })
+    .catch((error) => {
+      console.error('Error fetching player ${playerId}:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    });
 });
 
 router.post('/', (req, res) => {
-  const player = playerStore.create({
-    playerName: req.body.playerName,
-    roster: req.body.roster,
-  });
-  res.status(201).json(player);
+  // Extract player data from the request body
+  const newPlayer = req.body;
+
+  // Create the player using the playerStore
+  playerStore
+    .create(newPlayer)
+    .then((createdPlayer) => {
+      // Send the created player in the response with a 201 status code
+      res.status(201).json(createdPlayer);
+    })
+    .catch((error) => {
+      console.error('Error creating player:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    });
 });
 
 router.delete('/:playerId', (req, res) => {
-  const playerId = Number(req.params.playerId);
-  const removed = playerStore.delete(playerId);
-
-  if (!removed) {
-    return res
-      .status(404)
-      .json({ message: `player with id ${playerId} not found.` });
-  }
-
-  res.status(200).json({ message: `player with id ${playerId} removed.` });
+  res.status(200).json({ message: `delete not allowed.` });
 });
 
 router.patch('/:playerId', (req, res) => {

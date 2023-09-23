@@ -3,14 +3,15 @@ const expect = chai.expect;
 const supertest = require('supertest');
 const app = require('../src/server.js'); // Import your Express app
 const request = supertest(app);
+const fs = require('fs');
 
-describe('Player Routes Tests', () => {
+describe('Player Routes', () => {
   describe('GET /', () => {
     it('should fetch all players', async () => {
       const response = await request.get('/players');
       expect(response.status).to.equal(200);
       expect(response.body).to.be.an('array');
-      // ... other assertions
+      expect(response.body.length).to.equal(36);
     });
   });
 
@@ -29,5 +30,68 @@ describe('Player Routes Tests', () => {
     });
   });
 
-  // ... Add tests for POST, DELETE, PATCH, etc.
+  describe('POST /', () => {
+    it('should create a new player', async () => {
+      const imageBuffer = fs.readFileSync('./test/img/kyrie.webp');
+
+      const newPlayer = {
+        first_name: 'Player',
+        last_name: 'A1',
+        birthdate: '1990-01-01T08:00:00.000Z',
+        height: 70,
+        weight: 180,
+        shirt_size: 'L',
+        position: ['PG', 'SG'],
+        comment: "I'm the best!",
+        pic: imageBuffer,
+      };
+
+      const response = await request.post('/players').send(newPlayer);
+      expect(response.status).to.equal(201); // Assuming you return 201 for successful creation
+      expect(response.body).to.be.an('object');
+      expect(response.body.name).to.equal(newPlayer.name);
+    });
+
+    it('should return 400 for invalid player data', async () => {
+      const invalidPlayer = {
+        whatwaht: 'what!',
+      };
+
+      const response = await request.post('/players').send(invalidPlayer);
+      expect(response.status).to.equal(400);
+    });
+  });
+
+  describe('PATCH /:playerId', () => {
+    it('should update a player by id', async () => {
+      const updatedData = {
+        name: 'Jane Doe',
+        // ... other updated properties
+      };
+
+      const response = await request.patch('/players/1').send(updatedData);
+      expect(response.status).to.equal(200);
+      expect(response.body).to.be.an('object');
+      expect(response.body.name).to.equal(updatedData.name);
+      // ... other assertions
+    });
+
+    it('should return 400 for invalid update data', async () => {
+      const invalidData = {
+        // ... invalid update data
+      };
+
+      const response = await request.patch('/players/1').send(invalidData);
+      expect(response.status).to.equal(400);
+      // ... other assertions
+    });
+  });
+
+  describe('DELETE /:playerId', () => {
+    it('should return a message and not delete', async () => {
+      const response = await request.delete('/players/1');
+      expect(response.status).to.equal(200);
+      expect(response.body.message).to.equal('delete not allowed.');
+    });
+  });
 });

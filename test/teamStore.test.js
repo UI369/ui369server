@@ -54,7 +54,6 @@ describe('Team Store DB', () => {
     const result = await teamStore.create(newTeam);
     expect(result).to.be.an('object');
     expect(result.name).to.equal(newTeam.name);
-    // ... other assertions
   });
 
   it('should update a team by id', async () => {
@@ -64,6 +63,7 @@ describe('Team Store DB', () => {
       season_id: 1,
     };
     const result = await teamStore.update(1, updatedTeam);
+    expect(result.id).to.equal(1);
     expect(result.team_name).to.equal('Updated Team');
     expect(result.captain_id).to.equal(2);
     expect(result.season_id).to.equal(1);

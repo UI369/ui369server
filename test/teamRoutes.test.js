@@ -10,7 +10,6 @@ describe('Team Routes', () => {
       const response = await request.get('/teams');
       expect(response.status).to.equal(200);
       expect(response.body).to.be.an('array');
-      // ... other assertions
     });
   });
 
@@ -19,13 +18,11 @@ describe('Team Routes', () => {
       const response = await request.get('/teams/1');
       expect(response.status).to.equal(200);
       expect(response.body).to.be.an('object');
-      // ... other assertions
     });
 
     it('should return 400 for invalid teamId', async () => {
       const response = await request.get('/teams/invalidId');
       expect(response.status).to.equal(400);
-      // ... other assertions
     });
   });
 

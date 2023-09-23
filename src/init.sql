@@ -6,6 +6,7 @@
 -- Test DB:
 -- docker run --name hooprunner_test_container -e POSTGRES_PASSWORD=5652988 -e POSTGRES_DB=hooprunner_test -p 5432:5432 -v /Users/ui369/Workspace/Code/UI369/ui369suite/ui369server/src/:/docker-entrypoint-initdb.d/ -d postgres
 -- docker exec -it hooprunner_test_container psql -U postgres -d hooprunner_test
+
 -- Player Table
 CREATE TABLE Players (
     id SERIAL PRIMARY KEY,

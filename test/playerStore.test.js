@@ -93,6 +93,7 @@ describe('Player Store DB', () => {
       lastName: 'newlast',
     };
     const result = await playerStore.update(1, updatedPlayer);
+    expect(result.id).to.equal(1);
     expect(result.first_name).to.equal('newfirst');
     expect(result.last_name).to.equal('newlast');
   });
@@ -100,10 +101,8 @@ describe('Player Store DB', () => {
   it('should not delete and return null', async () => {
     const result = await playerStore.delete(2);
     expect(result).to.equal(null);
-    //expect(playerStore.findAll().length).to.equal(35);
   });
 
-  // Continue with tests for update, delete, etc.
   after(() => {
     pool.end(); // Close the database connection when done
   });
