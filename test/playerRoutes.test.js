@@ -26,7 +26,6 @@ describe('Player Routes', () => {
     it('should return 400 for invalid playerId', async () => {
       const response = await request.get('/players/invalidId');
       expect(response.status).to.equal(400);
-      // ... other assertions
     });
   });
 
@@ -78,12 +77,11 @@ describe('Player Routes', () => {
 
     it('should return 400 for invalid update data', async () => {
       const invalidData = {
-        // ... invalid update data
+        first_name: null,
       };
 
       const response = await request.patch('/players/1').send(invalidData);
       expect(response.status).to.equal(400);
-      // ... other assertions
     });
   });
 

@@ -60,10 +60,8 @@ router.delete('/:playerId', (req, res) => {
 
 router.patch('/:playerId', (req, res) => {
   const playerId = Number(req.params.playerId);
-  const updatedPlayer = playerStore.update(playerId, {
-    playerName: req.body.playerName,
-    roster: req.body.roster,
-  });
+
+  const updatedPlayer = playerStore.update(playerId, req.body);
 
   if (!updatedPlayer) {
     return res
