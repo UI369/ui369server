@@ -6,8 +6,18 @@ module.exports = class TeamStore {
   }
 
   async findAll() {
-    const { rows } = await this.client.query('SELECT * FROM Teams');
-    return rows;
+    const teamsQuery = `
+        SELECT 
+            Teams.*,
+            array_agg(Players.*) AS players
+        FROM Teams
+        LEFT JOIN TeamPlayers ON Teams.id = TeamPlayers.team_id
+        LEFT JOIN Players ON TeamPlayers.player_id = Players.id
+        GROUP BY Teams.id
+    `;
+
+    const { rows: teams } = await this.client.query(teamsQuery);
+    return teams;
   }
 
   async findById(id) {

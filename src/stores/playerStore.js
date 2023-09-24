@@ -43,6 +43,7 @@ module.exports = class PlayerStore {
       ', ',
     )}) VALUES (${placeholders.join(', ')}) RETURNING *`;
 
+    console.log('sql', sql);
     // Execute the query
     const { rows } = await this.client.query(sql, values);
 
@@ -76,23 +77,40 @@ module.exports = class PlayerStore {
 
   // Update function
   async update(id, updatedPlayer) {
-    const { columns, placeholders, values } =
-      this.prepareSqlFragmentsAndValues(updatedPlayer);
+    const { sqlFragments, values } =
+      this.generateSqlFragmentsAndValues(updatedPlayer);
 
-    // Construct the full SQL statement
-    const sqlFragments = columns.map(
-      (col, index) => `${col} = ${placeholders[index]}`,
-    );
+    // Add the player ID to the values array for the WHERE clause
     values.push(id);
 
-    const sql = `UPDATE Players SET ${sqlFragments.join(', ')} WHERE id = $${
-      placeholders.length + 1
-    } RETURNING *`;
-
+    // Construct the full SQL statement
+    const sql = `
+        UPDATE Players 
+        SET ${sqlFragments.join(', ')} 
+        WHERE id = $${values.length} 
+        RETURNING *
+    `;
+    console.log('sql', sql);
     // Execute the query
-    const { rows } = await this.client.query(sql, values);
+    const { rows } = await this.client.query(sql.trim(), values);
 
     return rows[0];
+  }
+
+  generateSqlFragmentsAndValues(data) {
+    const sqlFragments = [];
+    const values = [];
+
+    Object.entries(data).forEach(([key, value], index) => {
+      // Convert camelCase to snake_case for database column names
+      const dbKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+      const placeholder = `$${index + 1}`;
+
+      sqlFragments.push(`${dbKey} = ${placeholder}`);
+      values.push(value);
+    });
+
+    return { sqlFragments, values };
   }
 
   async isCaptain(id) {
@@ -101,27 +119,5 @@ module.exports = class PlayerStore {
       [id],
     );
     return rows.length !== 0;
-  }
-
-  // Helper function to prepare SQL fragments and values
-  prepareSqlFragmentsAndValues(data) {
-    let columns = [];
-    let placeholders = [];
-    let values = [];
-    let counter = 1; // This counter will help with the $1, $2, ... placeholders
-
-    // Iterate over the data keys
-    for (let key in data) {
-      // Convert camelCase to snake_case for database column names
-      let dbKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
-
-      // Add the column, placeholder, and value
-      columns.push(dbKey);
-      placeholders.push(`$${counter}`);
-      values.push(data[key]);
-      counter++;
-    }
-
-    return { columns, placeholders, values };
   }
 };

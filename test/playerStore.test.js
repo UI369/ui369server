@@ -4,14 +4,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const PlayerStore = require('../src/stores/playerStore.js');
 let client, playerStore;
-
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'hooprunner_test',
-  password: process.env.DB_PW,
-  port: 5432,
-});
+const pool = require('../src/stores/database.js');
 
 describe('Player Store DB', () => {
   beforeEach(async () => {

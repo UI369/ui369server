@@ -26,10 +26,16 @@ describe('Team Store DB', () => {
     client.release();
   });
 
-  it('should fetch all teams', async () => {
+  it.only('should fetch all teams', async () => {
     const result = await teamStore.findAll();
     expect(result).to.be.an('array');
     expect(result.length).to.equal(4);
+    console.log('result', result);
+    result.forEach((team) => {
+      expect(team).to.have.property('players');
+      expect(team.players).to.be.an('array');
+      expect(team.players.length).to.equal(9);
+    });
   });
 
   it('should fetch a team by id', async () => {

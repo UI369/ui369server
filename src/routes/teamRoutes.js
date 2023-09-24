@@ -3,8 +3,14 @@ const storeFactory = require('../stores/dataAccessFactory');
 const teamStore = storeFactory.getDataAccess().teamStore;
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json(teamStore.findAll());
+router.get('/', async (req, res) => {
+  try {
+    const teams = await teamStore.findAll();
+    res.json(teams);
+  } catch (error) {
+    console.error('Error fetching teams:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 router.get('/:teamId', (req, res) => {

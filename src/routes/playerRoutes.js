@@ -58,18 +58,24 @@ router.delete('/:playerId', (req, res) => {
   res.status(200).json({ message: `delete not allowed.` });
 });
 
-router.patch('/:playerId', (req, res) => {
+router.patch('/:playerId', async (req, res) => {
   const playerId = Number(req.params.playerId);
 
-  const updatedPlayer = playerStore.update(playerId, req.body);
+  const updatedPlayer = playerStore
+    .update(playerId, req.body)
+    .then((updatedPlayer) => {
+      // if (!updatedPlayer) {
+      //   return res
+      //     .status(404)
+      //     .json({ message: `player with id ${playerId} not found.` });
+      // }
 
-  if (!updatedPlayer) {
-    return res
-      .status(404)
-      .json({ message: `player with id ${playerId} not found.` });
-  }
-
-  res.json(updatedPlayer);
+      res.status(201).json(updatedPlayer);
+    })
+    .catch((error) => {
+      console.log('error', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    });
 });
 
 module.exports = router;
