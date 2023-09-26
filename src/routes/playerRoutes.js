@@ -1,12 +1,12 @@
-const express = require('express');
-const storeFactory = require('../stores/dataAccessFactory');
-const playerStore = storeFactory.getDataAccess().playerStore;
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
+const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  playerStore
-    .findAll()
+router.get('/', async (req, res) => {
+  prisma.players
+    .findMany()
     .then((players) => {
       res.json(players);
     })
@@ -26,54 +26,17 @@ router.get('/:playerId', (req, res) => {
     return;
   }
 
-  playerStore
-    .findById(playerId)
+  prisma.players
+    .findUnique({
+      where: {
+        id: playerId,
+      },
+    })
     .then((player) => {
       res.json(player);
     })
     .catch((error) => {
       console.error('Error fetching player ${playerId}:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    });
-});
-
-router.post('/', (req, res) => {
-  // Extract player data from the request body
-  const newPlayer = req.body;
-
-  // Create the player using the playerStore
-  playerStore
-    .create(newPlayer)
-    .then((createdPlayer) => {
-      // Send the created player in the response with a 201 status code
-      res.status(201).json(createdPlayer);
-    })
-    .catch((error) => {
-      console.error('Error creating player:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    });
-});
-
-router.delete('/:playerId', (req, res) => {
-  res.status(200).json({ message: `delete not allowed.` });
-});
-
-router.patch('/:playerId', async (req, res) => {
-  const playerId = Number(req.params.playerId);
-
-  const updatedPlayer = playerStore
-    .update(playerId, req.body)
-    .then((updatedPlayer) => {
-      // if (!updatedPlayer) {
-      //   return res
-      //     .status(404)
-      //     .json({ message: `player with id ${playerId} not found.` });
-      // }
-
-      res.status(201).json(updatedPlayer);
-    })
-    .catch((error) => {
-      console.log('error', error);
       res.status(500).json({ message: 'Internal Server Error' });
     });
 });

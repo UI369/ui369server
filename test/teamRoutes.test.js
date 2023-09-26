@@ -4,7 +4,7 @@ const supertest = require('supertest');
 const app = require('../src/server.js'); // Import your Express app
 const request = supertest(app);
 
-describe('Team Routes', () => {
+describe.only('Team Routes', () => {
   describe('GET /', () => {
     it('should fetch all teams', async () => {
       const response = await request.get('/teams');
