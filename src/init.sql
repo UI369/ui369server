@@ -99,6 +99,61 @@ CREATE TABLE TeamPlayers (
     PRIMARY KEY (team_id, player_id)
 );
 
+-- GameNight Table
+CREATE TABLE GameNight (
+    id SERIAL PRIMARY KEY,
+    game_date DATE NOT NULL,
+    max_slots INTEGER NOT NULL,
+    slot_price DECIMAL(10, 2) DEFAULT 5.00, -- default price is $5, but can be changed
+    slots_filled INTEGER DEFAULT 0 -- to keep track of how many slots are already reserved
+);
+
+-- PlayerCredits Table
+CREATE TABLE PlayerCredits (
+    id SERIAL PRIMARY KEY,
+    player_id INTEGER REFERENCES Players(id),
+    credits DECIMAL(10, 2) NOT NULL DEFAULT 0.00 -- amount of money the player has in credits
+);
+
+-- GameNightReservations Table
+CREATE TABLE GameNightReservations (
+    id SERIAL PRIMARY KEY,
+    game_night_id INTEGER REFERENCES GameNight(id),
+    player_id INTEGER REFERENCES Players(id),
+    display_name VARCHAR(255) NOT NULL, -- name to be displayed for the reservation
+    reserved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- time when the reservation was made
+);
+
+-- Trigger to update slots_filled in GameNight when a reservation is made
+-- Trigger function to update slots_filled in GameNight 
+-- Increment on an INSERT and decrement on a DELETE
+CREATE OR REPLACE FUNCTION update_slots_filled() RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        UPDATE GameNight 
+        SET slots_filled = slots_filled + 1 
+        WHERE id = NEW.game_night_id;
+        RETURN NEW;
+    ELSIF TG_OP = 'DELETE' THEN
+        UPDATE GameNight 
+        SET slots_filled = slots_filled - 1 
+        WHERE id = OLD.game_night_id;
+        RETURN OLD;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to increment slots_filled after an INSERT
+CREATE TRIGGER tr_increment_slots_filled
+AFTER INSERT ON GameNightReservations
+FOR EACH ROW EXECUTE FUNCTION update_slots_filled();
+
+-- Trigger to decrement slots_filled after a DELETE
+CREATE TRIGGER tr_decrement_slots_filled
+AFTER DELETE ON GameNightReservations
+FOR EACH ROW EXECUTE FUNCTION update_slots_filled();
+
+
 -- Inserting Players
 INSERT INTO Players (first_name, last_name, birthdate, height, weight, comment) VALUES 
 ('Player', 'A1', '1990-01-01', 70, 180, 'Im the best!'),
