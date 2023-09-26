@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model gamenight {
+  id                    Int                     @id @default(autoincrement())
+  game_date             DateTime                @db.Date
+  max_slots             Int
+  slot_price            Decimal?                @default(5.00) @db.Decimal(10, 2)
+  slots_filled          Int?                    @default(0)
+  gamenightreservations gamenightreservations[]
+}
+
+model gamenightreservations {
+  id            Int        @id @default(autoincrement())
+  game_night_id Int?
+  player_id     Int?
+  display_name  String     @db.VarChar(255)
+  reserved_at   DateTime?  @default(now()) @db.Timestamp(6)
+  gamenight     gamenight? @relation(fields: [game_night_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  players       players?   @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model games {
+  id                              Int           @id @default(autoincrement())
+  game_time                       DateTime      @db.Timestamp(6)
+  team_home_id                    Int?
+  team_away_id                    Int?
+  season_id                       Int?
+  home_score                      Int?
+  away_score                      Int?
+  location                        String?       @db.VarChar(255)
+  seasons                         seasons?      @relation(fields: [season_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  teams_games_team_away_idToteams teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  teams_games_team_home_idToteams teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playerstats                     playerstats[]
+}
+
+model playercredits {
+  id        Int      @id @default(autoincrement())
+  player_id Int?
+  credits   Decimal  @default(0.00) @db.Decimal(10, 2)
+  players   players? @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model players {
+  id                    Int                     @id @default(autoincrement())
+  first_name            String                  @db.VarChar(255)
+  last_name             String                  @db.VarChar(255)
+  height                Int?
+  weight                Int?
+  birthdate             DateTime                @db.Date
+  comment               String?
+  pic                   Bytes?
+  hidden                Boolean?                @default(false)
+  position              player_position_type[]
+  shirt_size            shirt_size_type?
+  gamenightreservations gamenightreservations[]
+  playercredits         playercredits[]
+  playerstats           playerstats[]
+  teamplayers           teamplayers[]
+  teams                 teams[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model playerstats {
+  id                  Int      @id @default(autoincrement())
+  player_id           Int?
+  game_id             Int?
+  shots_attempted     Int?
+  shots_made          Int?
+  minutes_played      Int?
+  threes_attempted    Int?
+  threes_made         Int?
+  fouls               Int?
+  assists             Int?
+  blocks              Int?
+  steals              Int?
+  freethrow_attempted Int?
+  freethrows_made     Int?
+  games               games?   @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  players             players? @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model seasons {
+  id         Int      @id @default(autoincrement())
+  start_date DateTime @db.Date
+  games      games[]
+  teams      teams[]
+}
+
+model teamplayers {
+  team_id   Int
+  player_id Int
+  players   players @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  teams     teams   @relation(fields: [team_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([team_id, player_id])
+}
+
+model teams {
+  id                              Int           @id @default(autoincrement())
+  team_name                       String        @db.VarChar(255)
+  captain_id                      Int?
+  season_id                       Int?
+  games_games_team_away_idToteams games[]       @relation("games_team_away_idToteams")
+  games_games_team_home_idToteams games[]       @relation("games_team_home_idToteams")
+  teamplayers                     teamplayers[]
+  players                         players?      @relation(fields: [captain_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  seasons                         seasons?      @relation(fields: [season_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum player_position_type {
+  PG
+  SG
+  SF
+  PF
+  C
+}
+
+enum shirt_size_type {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+  XXXXL
+  XXXXXL
+}
