@@ -1,4 +1,4 @@
-# [Your App Name] Setup Guide
+# UI369 Server Setup Guide
 
 This guide provides step-by-step instructions to set up the application on a new computer.
 
