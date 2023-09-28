@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider             = "prisma-client-js"
+  seed                 = "ts-node ./src/stores/prisma/seed.ts"
 }
 
 datasource db {
@@ -54,6 +55,7 @@ model players {
   last_name             String                  @db.VarChar(255)
   height                Int?
   weight                Int?
+  sex                   String                  @db.VarChar(1)
   birthdate             DateTime                @db.Date
   comment               String?
   pic                   Bytes?

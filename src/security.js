@@ -11,8 +11,19 @@ const { CORS_ORIGIN } = process.env;
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: function (origin, callback) {
+    // Check if the origin is exactly our desired origin or is a same-origin request
+    if (
+      !origin ||
+      origin === process.env.CORS_ORIGIN ||
+      origin === `${process.env.CORS_ORIGIN}/`
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
-console.log('process.env.CORS_ORIGIN', process.env.CORS_ORIGIN);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
