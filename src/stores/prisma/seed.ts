@@ -500,6 +500,7 @@ async function main() {
     {
       player_id: 1,
       game_id: 1,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -515,6 +516,7 @@ async function main() {
     {
       player_id: 2,
       game_id: 1,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -530,6 +532,7 @@ async function main() {
     {
       player_id: 3,
       game_id: 1,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -545,6 +548,7 @@ async function main() {
     {
       player_id: 4,
       game_id: 1,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -560,6 +564,7 @@ async function main() {
     {
       player_id: 5,
       game_id: 1,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -575,6 +580,7 @@ async function main() {
     {
       player_id: 6,
       game_id: 1,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -590,6 +596,7 @@ async function main() {
     {
       player_id: 7,
       game_id: 1,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -605,6 +612,7 @@ async function main() {
     {
       player_id: 8,
       game_id: 1,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -620,6 +628,7 @@ async function main() {
     {
       player_id: 9,
       game_id: 1,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -635,6 +644,7 @@ async function main() {
     {
       player_id: 10,
       game_id: 1,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -650,6 +660,7 @@ async function main() {
     {
       player_id: 11,
       game_id: 1,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -665,6 +676,7 @@ async function main() {
     {
       player_id: 12,
       game_id: 1,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -680,6 +692,7 @@ async function main() {
     {
       player_id: 13,
       game_id: 1,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -695,6 +708,7 @@ async function main() {
     {
       player_id: 14,
       game_id: 1,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -710,6 +724,7 @@ async function main() {
     {
       player_id: 15,
       game_id: 1,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -725,6 +740,7 @@ async function main() {
     {
       player_id: 16,
       game_id: 1,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -740,6 +756,7 @@ async function main() {
     {
       player_id: 17,
       game_id: 1,
+      home: false,
       shots_attempted: 7,
       shots_made: 3,
       minutes_played: 19,
@@ -755,6 +772,7 @@ async function main() {
     {
       player_id: 18,
       game_id: 1,
+      home: false,
       shots_attempted: 10,
       shots_made: 6,
       minutes_played: 24,
@@ -772,6 +790,7 @@ async function main() {
     {
       player_id: 19,
       game_id: 2,
+      home: true,
       shots_attempted: 10,
       shots_made: 6,
       minutes_played: 20,
@@ -787,6 +806,7 @@ async function main() {
     {
       player_id: 20,
       game_id: 2,
+      home: true,
       shots_attempted: 8,
       shots_made: 5,
       minutes_played: 22,
@@ -802,6 +822,7 @@ async function main() {
     {
       player_id: 21,
       game_id: 2,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -817,6 +838,7 @@ async function main() {
     {
       player_id: 22,
       game_id: 2,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -832,6 +854,7 @@ async function main() {
     {
       player_id: 23,
       game_id: 2,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -847,6 +870,7 @@ async function main() {
     {
       player_id: 24,
       game_id: 2,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -862,6 +886,7 @@ async function main() {
     {
       player_id: 25,
       game_id: 2,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -877,6 +902,7 @@ async function main() {
     {
       player_id: 26,
       game_id: 2,
+      home: true,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -892,6 +918,7 @@ async function main() {
     {
       player_id: 27,
       game_id: 2,
+      home: true,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -907,6 +934,7 @@ async function main() {
     {
       player_id: 28,
       game_id: 2,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -922,6 +950,7 @@ async function main() {
     {
       player_id: 29,
       game_id: 2,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -937,6 +966,7 @@ async function main() {
     {
       player_id: 30,
       game_id: 2,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -952,6 +982,7 @@ async function main() {
     {
       player_id: 31,
       game_id: 2,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -967,6 +998,7 @@ async function main() {
     {
       player_id: 32,
       game_id: 2,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -982,6 +1014,7 @@ async function main() {
     {
       player_id: 33,
       game_id: 2,
+      home: false,
       shots_attempted: 10,
       shots_made: 5,
       minutes_played: 20,
@@ -997,6 +1030,7 @@ async function main() {
     {
       player_id: 34,
       game_id: 2,
+      home: false,
       shots_attempted: 8,
       shots_made: 4,
       minutes_played: 22,
@@ -1012,6 +1046,7 @@ async function main() {
     {
       player_id: 35,
       game_id: 2,
+      home: false,
       shots_attempted: 7,
       shots_made: 3,
       minutes_played: 19,
@@ -1027,6 +1062,7 @@ async function main() {
     {
       player_id: 36,
       game_id: 2,
+      home: false,
       shots_attempted: 10,
       shots_made: 6,
       minutes_played: 24,

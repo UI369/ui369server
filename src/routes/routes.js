@@ -1,12 +1,16 @@
 const express = require('express');
 const teamRoutes = require('./teamRoutes');
 const playerRoutes = require('./playerRoutes');
+const statsRoutes = require('./statsRoutes');
+const gameRoutes = require('./gameRoutes');
 //const authRoutes = require('./authRoutes');
 
 const router = express.Router();
 
 router.use('/teams', teamRoutes);
 router.use('/players', playerRoutes);
+router.use('/stats', statsRoutes);
+router.use('/games', gameRoutes);
 //router.use('/auth', authRoutes);
 router.use('*', (req, res) => {
   res.status(404).json({ error: 'Not Found' });
