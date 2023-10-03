@@ -37,8 +37,8 @@ model games {
   away_score                      Int?
   location                        String?       @db.VarChar(255)
   seasons                         seasons?      @relation(fields: [season_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  teams_games_team_away_idToteams teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  teams_games_team_home_idToteams teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  away_team teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  home_team teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   playerstats                     playerstats[]
 }
 
@@ -74,17 +74,19 @@ model playerstats {
   id                  Int      @id @default(autoincrement())
   player_id           Int?
   game_id             Int?
-  home:               Boolean?
-  shots_attempted     Int?
-  shots_made          Int?
+  home                Boolean?
+  twos_attempted      Int?
+  twos_made           Int?
   minutes_played      Int?
   threes_attempted    Int?
   threes_made         Int?
   fouls               Int?
+  offensive_rebounds  Int?
+  defensive_rebounds  Int?
   assists             Int?
   blocks              Int?
   steals              Int?
-  freethrow_attempted Int?
+  freethrows_attempted Int?
   freethrows_made     Int?
   games               games?   @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   players             players? @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
