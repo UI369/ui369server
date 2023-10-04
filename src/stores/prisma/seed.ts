@@ -396,8 +396,8 @@ async function main() {
       team_home_id: 1,
       team_away_id: 2,
       season_id: 1,
-      home_score: null,
-      away_score: null,
+      home_score: 30,
+      away_score: 40,
       location: 'Vets Hall',
     },
     {
