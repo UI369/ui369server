@@ -67,8 +67,21 @@ router.get('/:gameId', (req, res) => {
             game_id: gameId,
             home: true,
           },
+          include: {
+            players: {
+              select: {
+                first_name: true,
+                last_name: true,
+              },
+            },
+          },
         })
         .then((homeStats) => {
+          const homeStatsWithPlayerName = homeStats.map((stat) => ({
+            ...stat,
+            playerName: `${stat.players.first_name} ${stat.players.last_name}`,
+          }));
+
           // Fetch the away team stats
           return prisma.playerstats
             .findMany({
@@ -76,13 +89,25 @@ router.get('/:gameId', (req, res) => {
                 game_id: gameId,
                 home: false,
               },
+              include: {
+                players: {
+                  select: {
+                    first_name: true,
+                    last_name: true,
+                  },
+                },
+              },
             })
             .then((awayStats) => {
-              // Constructing the response
+              const awayStatsWithPlayerName = awayStats.map((stat) => ({
+                ...stat,
+                playerName: `${stat.players.first_name} ${stat.players.last_name}`,
+              }));
+
               const response = {
                 ...game,
-                homeStats,
-                awayStats,
+                homeStats: homeStatsWithPlayerName,
+                awayStats: awayStatsWithPlayerName,
               };
 
               res.json(response);
