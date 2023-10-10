@@ -8,6 +8,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model users {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
+  password String
+  eth_address String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  players  players? @relation(fields: [player_id], references: [id])
+  player_id Int?    @unique
+}
+
+
 model gamenight {
   id                    Int                     @id @default(autoincrement())
   game_date             DateTime                @db.Date
@@ -67,6 +80,8 @@ model players {
   playerstats           playerstats[]
   teamplayers           teamplayers[]
   teams                 teams[]
+  user                  users?
+  userId                Int?                     @unique
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

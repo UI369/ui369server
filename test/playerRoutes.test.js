@@ -5,7 +5,7 @@ const app = require('../src/server.js'); // Import your Express app
 const request = supertest(app);
 const fs = require('fs');
 
-describe.only('Player Routes', () => {
+describe('Player Routes', () => {
   describe('GET /', () => {
     it('should fetch all players', async () => {
       const response = await request.get('/players');
@@ -30,9 +30,9 @@ describe.only('Player Routes', () => {
   });
 });
 
-describe.skip('Defunct Player Routes', () => {
+describe('Defunct Player Routes', () => {
   describe('POST /', () => {
-    it('should create a new player', async () => {
+    it.only('should create a new player', async () => {
       const imageBuffer = fs.readFileSync('./test/img/kyrie.webp');
 
       const newPlayer = {
