@@ -1,5 +1,5 @@
 const express = require('express');
-const registrationRoutes = require('./registrationRoutes');
+const userRoutes = require('./userRoutes');
 const teamRoutes = require('./teamRoutes');
 const playerRoutes = require('./playerRoutes');
 const statsRoutes = require('./statsRoutes');
@@ -8,7 +8,7 @@ const gameRoutes = require('./gameRoutes');
 
 const router = express.Router();
 
-router.use('/register', registrationRoutes);
+router.use('/user', userRoutes);
 router.use('/teams', teamRoutes);
 router.use('/players', playerRoutes);
 router.use('/stats', statsRoutes);

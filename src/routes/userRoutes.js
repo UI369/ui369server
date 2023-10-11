@@ -7,12 +7,8 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const { check, validationResult } = require('express-validator');
 
-router.get('/', (req, res) => {
-  res.json({});
-});
-
 router.post(
-  '/',
+  '/register',
   [
     check('username').notEmpty().withMessage('Username is required'),
     check('email').isEmail().withMessage('Email is not valid'),
@@ -22,8 +18,6 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log('errors', errors);
-    console.log('req.body', req.body);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -56,6 +50,43 @@ router.post(
       res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  },
+);
+
+router.post(
+  '/login',
+  [
+    check('email').isEmail().withMessage('Email is not valid'),
+    check('password').notEmpty().withMessage('Password is required'),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    try {
+      const user = await prisma.users.findUnique({
+        where: { email: email },
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Incorrect password' });
+      }
+
+      // At this point, the user is authenticated. You can generate a token or set a session here.
+      res.status(200).json({ message: 'Logged in successfully' });
+    } catch (error) {
       res.status(500).json({ message: 'Server error' });
     }
   },

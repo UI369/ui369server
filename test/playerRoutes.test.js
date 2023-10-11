@@ -30,9 +30,9 @@ describe('Player Routes', () => {
   });
 });
 
-describe('Defunct Player Routes', () => {
+describe.skip('Defunct Player Routes', () => {
   describe('POST /', () => {
-    it.only('should create a new player', async () => {
+    it('should create a new player', async () => {
       const imageBuffer = fs.readFileSync('./test/img/kyrie.webp');
 
       const newPlayer = {

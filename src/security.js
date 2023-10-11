@@ -12,12 +12,14 @@ const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   origin: function (origin, callback) {
+    console.log('origin:', origin);
     // Check if the origin is exactly our desired origin or is a same-origin request
     if (
       !origin ||
       origin === process.env.CORS_ORIGIN ||
       origin === `${process.env.CORS_ORIGIN}/`
     ) {
+      console.log('CORS', process.env.CORS_ORIGIN);
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -34,6 +36,7 @@ module.exports = function securityMiddleware(app) {
   // app.use(helmet());
   //app.use(morgan("tiny"));
   //app.use(limiter);
+  console.log('corsOptions:', corsOptions);
   app.use(cors(corsOptions));
   //app.use(mongoSanitize());
   //app.use(hpp());
