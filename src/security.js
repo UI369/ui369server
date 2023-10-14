@@ -12,14 +12,13 @@ const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   origin: function (origin, callback) {
-    console.log('origin:', origin);
+    console.log('Received request:', origin);
     // Check if the origin is exactly our desired origin or is a same-origin request
     if (
       !origin ||
       origin === process.env.CORS_ORIGIN ||
       origin === `${process.env.CORS_ORIGIN}/`
     ) {
-      console.log('CORS', process.env.CORS_ORIGIN);
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
