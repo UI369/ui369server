@@ -10,6 +10,30 @@ const calculateOrderAmount = (items) => {
   return 1400;
 };
 
+router.post('/create-checkout-session', async (req, res) => {
+  console.log('session');
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Draft League Registration',
+          },
+          unit_amount: 8000, // The price in cents
+        },
+        quantity: 1,
+      },
+    ],
+    mode: 'payment',
+    success_url: 'https://localhost:5173/payment/success',
+    cancel_url: 'https://localhost:5173/payment/cancel',
+  });
+  console.log('session', session);
+  res.json({ id: session.id });
+});
+
 router.post('/create-payment-intent', async (req, res) => {
   const { items } = req.body;
 
