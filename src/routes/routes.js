@@ -5,12 +5,14 @@ const playerRoutes = require('./playerRoutes');
 const statsRoutes = require('./statsRoutes');
 const gameRoutes = require('./gameRoutes');
 const paymentRoutes = require('./paymentRoutes');
+const seasonRoutes = require('./seasonRoutes');
 //const authRoutes = require('./authRoutes');
 
 const router = express.Router();
 
 router.use('/user', userRoutes);
 router.use('/teams', teamRoutes);
+router.use('/seasons', seasonRoutes);
 router.use('/players', playerRoutes);
 router.use('/stats', statsRoutes);
 router.use('/games', gameRoutes);
