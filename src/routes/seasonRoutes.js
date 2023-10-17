@@ -39,7 +39,7 @@ router.get('/:seasonId', (req, res) => {
         id: seasonId,
       },
       include: {
-        games: true,
+        games: { include: { home_team: true, away_team: true } },
         teams: true,
       },
     })
