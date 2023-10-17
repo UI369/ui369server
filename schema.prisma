@@ -126,6 +126,7 @@ model teamplayers {
 model teams {
   id                              Int           @id @default(autoincrement())
   team_name                       String        @db.VarChar(255)
+  short_name                      String        @db.VarChar(255)
   captain_id                      Int?
   season_id                       Int?
   games_games_team_away_idToteams games[]       @relation("games_team_away_idToteams")
