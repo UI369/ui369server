@@ -1,4 +1,4 @@
-//const helmet = require('helmet');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const csurf = require('csurf');
 const rateLimit = require('express-rate-limit');
@@ -12,7 +12,6 @@ const corsOptions = {
   origin: process.env.CORS_ORIGIN,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   origin: function (origin, callback) {
-    console.log('Received request:', origin);
     // Check if the origin is exactly our desired origin or is a same-origin request
     if (
       !origin ||
@@ -32,8 +31,8 @@ const limiter = rateLimit({
 });
 
 module.exports = function securityMiddleware(app) {
-  // app.use(helmet());
-  //app.use(morgan("tiny"));
+  app.use(helmet());
+  app.use(morgan('tiny'));
   //app.use(limiter);
   console.log('corsOptions:', corsOptions);
   app.use(cors(corsOptions));
