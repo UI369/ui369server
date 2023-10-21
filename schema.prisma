@@ -1,6 +1,6 @@
 generator client {
-  provider             = "prisma-client-js"
-  seed                 = "ts-node ./src/stores/prisma/seed.ts"
+  provider = "prisma-client-js"
+  seed     = "ts-node ./src/stores/prisma/seed.ts"
 }
 
 datasource db {
@@ -9,17 +9,16 @@ datasource db {
 }
 
 model users {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  email    String   @unique
-  password String
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  email       String   @unique
+  password    String
   eth_address String?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  players  players? @relation(fields: [player_id], references: [id])
-  player_id Int?    @unique
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  player_id   Int?     @unique
+  players     players? @relation(fields: [player_id], references: [id])
 }
-
 
 model gamenight {
   id                    Int                     @id @default(autoincrement())
@@ -41,22 +40,25 @@ model gamenightreservations {
 }
 
 model games {
-  id                              Int           @id @default(autoincrement())
-  game_time                       DateTime      @db.Timestamp(6)
-  team_home_id                    Int?
-  team_away_id                    Int?
-  season_id                       Int?
-  home_score                      Int?
-  away_score                      Int?
-  location                        String?       @db.VarChar(255)
-  seasons                         seasons?      @relation(fields: [season_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  away_team teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  home_team teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  playerstats                     playerstats[]
-  referee1                        String?
-  referee2                        String?
-  referee3                        String?
+  id           Int           @id @default(autoincrement())
+  game_time    DateTime      @db.Timestamp(6)
+  team_home_id Int?
+  team_away_id Int?
+  season_id    Int?
+  home_score   Int?
+  away_score   Int?
+  location     String?       @db.VarChar(255)
+  referee1     String?
+  referee2     String?
+  referee3     String?
+  seasons      seasons?      @relation(fields: [season_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  away_team    teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  home_team    teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  playerstats  playerstats[]
 }
+
+
+
 
 model playercredits {
   id        Int      @id @default(autoincrement())
@@ -66,8 +68,7 @@ model playercredits {
 }
 
 model players {
-  id                    Int                     @id @default(autoincrement())
-  player_num            String?                 @db.VarChar(3)
+  id                    Int                     @id @default(autoincrement())         
   first_name            String                  @db.VarChar(255)
   last_name             String                  @db.VarChar(255)
   height                Int?
@@ -79,36 +80,39 @@ model players {
   hidden                Boolean?                @default(false)
   position              player_position_type[]
   shirt_size            shirt_size_type?
+  userId                Int?                    @unique
+  player_num            String?                 @db.VarChar(3)
   gamenightreservations gamenightreservations[]
   playercredits         playercredits[]
   playerstats           playerstats[]
   teamplayers           teamplayers[]
   teams                 teams[]
   user                  users?
-  userId                Int?                     @unique
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model playerstats {
-  id                  Int      @id @default(autoincrement())
-  player_id           Int?
-  game_id             Int?
-  home                Boolean?
-  twos_attempted      Int?
-  twos_made           Int?
-  minutes_played      Int?
-  threes_attempted    Int?
-  threes_made         Int?
-  fouls               Int?
-  offensive_rebounds  Int?
-  defensive_rebounds  Int?
-  assists             Int?
-  blocks              Int?
-  steals              Int?
+  id                   Int      @id @default(autoincrement())
+  player_id            Int?
+  game_id              Int?
+  home                 Boolean?
+  twos_attempted       Int?
+  twos_made            Int?
+  minutes_played       Int?
+  threes_attempted     Int?
+  threes_made          Int?
+  fouls                Int?
+  offensive_rebounds   Int?
+  defensive_rebounds   Int?
+  assists              Int?
+  blocks               Int?
+  steals               Int?
   freethrows_attempted Int?
-  freethrows_made     Int?
-  games               games?   @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  players             players? @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  freethrows_made      Int?
+  turnovers            Int?
+  points               Int?
+  games                games?   @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  players              players? @relation(fields: [player_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model seasons {
@@ -130,9 +134,9 @@ model teamplayers {
 model teams {
   id                              Int           @id @default(autoincrement())
   team_name                       String        @db.VarChar(255)
-  short_name                      String        @db.VarChar(255)
   captain_id                      Int?
   season_id                       Int?
+  short_name                      String        @db.VarChar(255)
   games_games_team_away_idToteams games[]       @relation("games_team_away_idToteams")
   games_games_team_home_idToteams games[]       @relation("games_team_home_idToteams")
   teamplayers                     teamplayers[]

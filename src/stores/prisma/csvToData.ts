@@ -35,44 +35,41 @@ export function csvToData(
         } else if (row[0] === 'season_id') {
           gameInfo.season_id = parseInt(row[1], 10);
         } else if (row[0] == 'home_team') {
-          gameInfo.home_team = {
-            connect: {
-              id: parseInt(row[1], 10),
-            },
-          };
+          gameInfo.team_home_id = parseInt(row[1], 10);
         } else if (row[0] == 'away_team') {
-          gameInfo.away_team = {
-            connect: {
-              id: parseInt(row[1], 10),
-            },
-          };
+          gameInfo.team_away_id = parseInt(row[1], 10);
         } else if (row[0] == 'referee1') {
           gameInfo.referee1 = row[1];
         } else if (row[0] == 'referee2') {
           gameInfo.referee2 = row[1];
         } else if (row[0] == 'player_stat') {
-          const playerStat = {
-            player_id: parseInt(row[4], 10),
-            player_num: parseInt(row[1], 10),
-            game_id: gameId,
-            played: Boolean(row[5]),
-            twos_attempted: parseInt(row[6], 10) || 0,
-            twos_made: parseInt(row[7], 10) || 0,
-            threes_attempted: parseInt(row[8], 10) || 0,
-            threes_made: parseInt(row[9], 10) || 0,
-            freethrows_attempted: parseInt(row[10], 10) || 0,
-            freethrows_made: parseInt(row[11], 10) || 0,
-            offensive_rebounds: parseInt(row[12], 10) || 0,
-            defensive_rebounds: parseInt(row[13], 10) || 0,
-            assists: parseInt(row[14], 10) || 0,
-            steals: parseInt(row[15], 10) || 0,
-            blocks: parseInt(row[16], 10) || 0,
-            turnovers: parseInt(row[17], 10) || 0,
-            fouls: parseInt(row[18], 10) || 0,
-            points: parseInt(row[19], 10) || 0, // Points, adjust if you have this data
-          };
+          //Only add if they played
+          if (Boolean(row[5]) == true) {
+            const playerStat = {
+              player_id: parseInt(row[4], 10),
+              game_id: gameId,
+              twos_attempted: parseInt(row[6], 10) || 0,
+              twos_made: parseInt(row[7], 10) || 0,
+              threes_attempted: parseInt(row[8], 10) || 0,
+              threes_made: parseInt(row[9], 10) || 0,
+              freethrows_attempted: parseInt(row[10], 10) || 0,
+              freethrows_made: parseInt(row[11], 10) || 0,
+              offensive_rebounds: parseInt(row[12], 10) || 0,
+              defensive_rebounds: parseInt(row[13], 10) || 0,
+              assists: parseInt(row[14], 10) || 0,
+              steals: parseInt(row[15], 10) || 0,
+              blocks: parseInt(row[16], 10) || 0,
+              turnovers: parseInt(row[17], 10) || 0,
+              fouls: parseInt(row[18], 10) || 0,
+              //calculate points scored
+              points:
+                (parseInt(row[7], 10) || 0) * 2 +
+                  (parseInt(row[9], 10) || 0) * 3 +
+                  parseInt(row[11], 10) || 0,
+            };
 
-          playerStats.push(playerStat);
+            playerStats.push(playerStat);
+          }
         }
       });
     },
