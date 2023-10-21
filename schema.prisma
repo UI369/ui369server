@@ -53,6 +53,9 @@ model games {
   away_team teams?        @relation("games_team_away_idToteams", fields: [team_away_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   home_team teams?        @relation("games_team_home_idToteams", fields: [team_home_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   playerstats                     playerstats[]
+  referee1                        String?
+  referee2                        String?
+  referee3                        String?
 }
 
 model playercredits {
@@ -64,11 +67,12 @@ model playercredits {
 
 model players {
   id                    Int                     @id @default(autoincrement())
+  player_num            String?                 @db.VarChar(3)
   first_name            String                  @db.VarChar(255)
   last_name             String                  @db.VarChar(255)
   height                Int?
   weight                Int?
-  sex                   String                  @db.VarChar(1)
+  sex                   String?                 @db.VarChar(1)
   birthdate             DateTime                @db.Date
   comment               String?
   pic                   Bytes?
