@@ -38,7 +38,7 @@ export function csvToData(
       dataRows.forEach((row: string[], index: number) => {
         // Extracting game info
         if (row[0] === 'date') {
-          gameInfo.game_time = new Date(row[1] + 'T18:15:00-07:00');
+          gameInfo.game_time = new Date(row[1]);
         } else if (row[0] === 'home_score') {
           gameInfo.home_score = parseInt(row[1], 10);
         } else if (row[0] === 'away_score') {
