@@ -17,6 +17,8 @@ const gameFiles = [
   'game6.csv',
   'playoff1.csv',
   'playoff2.csv',
+  'third.csv',
+  'championship.csv',
 ].map((fileName) => path.join(process.cwd(), 'src', 'data', fileName));
 
 const prisma = new PrismaClient();

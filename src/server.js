@@ -25,15 +25,12 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const server = 
+let server;
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(process.env.PORT, () =>
-  console.log(`Server started on port ${process.env.PORT}`),
+  server = app.listen(process.env.PORT, () => {
+    console.log(`Server started on port ${process.env.PORT}`);
+  });
 }
-console.log('first', first)
-module.exports = app; // Export the app, not the server instance
-
-
 // export app
 module.exports = server;

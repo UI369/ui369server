@@ -1,0 +1,38 @@
+date,2023-10-22,,,,,,,,,,,,,,,,,,
+home_score,50,,,,,,,,,,,,,,,,,,
+away_score,55,,,,,,,,,,,,,,,,,,
+location,"Veteran's Hall, Grass Valley CA",,,,,,,,,,,,,,,,,,
+season_id,1,,,,,,,,,,,,,,,,,,
+home_team,1,,,,,,,,,,,,,,,,,,
+away_team,3,,,,,,,,,,,,,,,,,,
+referee1,Carl,,,,,,,,,,,,,,,,,,
+referee2,Nathan,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,Tule's Titans,,,ID,PLAYED?,2A,2M,3A,3M,FTA,FTM,OR,DR,AST,STL,BLK,TO,F,P
+away_stat,1,Dylan,Ramirez,31,T,4,1,3,1,0,0,0,1,2,0,0,1,1,5
+away_stat,4,Ben,Maselli,6,T,8,4,3,1,4,1,0,3,0,2,0,0,1,12
+away_stat,7,Tule,Edwards,1,T,4,3,6,0,4,4,0,4,1,1,1,5,2,10
+away_stat,18,Chris,Mahurin,9,T,0,0,2,1,0,0,0,1,0,0,0,0,2,3
+away_stat,33,Nick,Barry,22,T,4,2,5,2,2,2,1,1,3,1,0,0,2,12
+away_stat,52,Arend,Hall,26,T,0,0,0,0,0,0,1,4,0,0,0,0,0,0
+away_stat,9,John,Hoyt,14,T,3,0,1,0,0,0,1,2,0,0,0,0,0,3
+away_stat,0,Tomas,Armijo,30,T,6,2,1,0,2,1,1,1,0,0,0,3,0,5
+away_stat,13,Christian,Rotunno,23,F,,,,,,,,,,,,,,0
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,Brian's Grass Valley Royals,,,ID,PLAYED?,2A,2M,3A,3M,FTA,FTM,OR,DR,AST,STL,BLK,TO,F,P
+home_stat,23,Brian,Fererro,3,T,2,0,2,1,0,0,0,0,0,0,0,1,1,3
+home_stat,12,Josh,Fisher,18,T,1,0,0,0,0,0,3,5,4,4,0,3,2,0
+home_stat,0,Koppa,Enos,29,T,7,3,2,0,0,0,1,5,1,0,0,0,2,6
+home_stat,3,Miles,Allen,33,T,4,1,2,0,0,0,1,0,0,0,0,2,0,2
+home_stat,2,Jaret,Michieli,27,T,5,1,14,10,1,0,1,1,2,0,0,1,5,32
+home_stat,84,Jared,Brautigam,11,T,3,3,2,0,1,1,1,3,2,0,2,0,2,7
+home_stat,1,Kenny,G,15,T,5,1,2,0,5,3,1,3,2,1,0,2,0,5
+home_stat,9,Tyler,Salcedo,19,F,,,,,,,,,,,,,,0
+home_stat,0,Joom Koppa,Enos,36,F,,,,,,,,,,,,,,0
