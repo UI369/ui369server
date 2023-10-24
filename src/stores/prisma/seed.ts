@@ -4,13 +4,20 @@ import {
   player_position_type,
   shirt_size_type,
 } from '@prisma/client';
-
+import { PlayerStat } from './types';
 import { csvToData } from './csvToData';
 import * as path from 'path';
 
-const gameFiles = ['game1.csv'].map((fileName) =>
-  path.join(process.cwd(), 'src', 'data', fileName),
-);
+const gameFiles = [
+  'game1.csv',
+  'game2.csv',
+  'game3.csv',
+  'game4.csv',
+  'game5.csv',
+  'game6.csv',
+  'playoff1.csv',
+  'playoff2.csv',
+].map((fileName) => path.join(process.cwd(), 'src', 'data', fileName));
 
 const prisma = new PrismaClient();
 
@@ -515,19 +522,18 @@ async function main() {
   async function seed() {
     console.log('seeding games and players');
     for (let i = 0; i < gameFiles.length; i++) {
-      console.log('Loading: ', gameFiles[i]);
       const data = csvToData(gameFiles[i], i + 1); // Assuming gameId starts from 1 and increments
-
-      console.log('gameInfo', data.gameInfo);
-      console.log('playerStats', data.playerStats);
+      console.log('data', data);
       // Insert game info
       await prisma.games.create({
         data: data.gameInfo,
       });
 
-      // Insert player stats using createMany for efficiency
+      console.log('playerstats:', data.playerStats);
+
+      const playerStatsData: PlayerStat[] = data.playerStats;
       await prisma.playerstats.createMany({
-        data: data.playerStats,
+        data: playerStatsData,
       });
     }
   }
@@ -536,58 +542,6 @@ async function main() {
     console.error(e);
     process.exit(1);
   });
-
-  // Inserting games for the first season
-  // const gamesData: games[] = [
-  //   {
-  //     id: 1,
-  //     game_time: new Date('2023-09-17T18:15:00-07:00'),
-  //     team_home_id: 2,
-  //     team_away_id: 1,
-  //     season_id: 1,
-  //     home_score: 30,
-  //     away_score: 40,
-  //     location: 'Vets Hall',
-  //   },
-  //   {
-  //     id: 2,
-  //     game_time: new Date('2023-09-17T19:30:00-07:00'),
-  //     team_home_id: 4,
-  //     team_away_id: 3,
-  //     season_id: 1,
-  //     home_score: null,
-  //     away_score: null,
-  //     location: 'Vets Hall',
-  //   },
-  // await prisma.games.createMany({ data: gamesData });
-
-  // Insert PlayerStats
-
-  // const playerStatsData = [
-  //   // PlayerStats for game_id = 1
-  //   {
-  //     player_id: 1,
-  //     game_id: 1,
-  //     home: true,
-  //     twos_attempted: 10,
-  //     twos_made: 5,
-  //     minutes_played: 20,
-  //     threes_attempted: 3,
-  //     threes_made: 1,
-  //     fouls: 2,
-  //     assists: 3,
-  //     blocks: 1,
-  //     steals: 2,
-  //     freethrows_attempted: 4,
-  //     freethrows_made: 3,
-  //     offensive_rebounds: 3,
-  //     defensive_rebounds: 4,
-  //   },
-  // ];
-
-  //await prisma.playerstats.createMany({ data: playerStatsData });
-
-  // ... Continue adding data similarly for other models
 
   console.log('Data seeded!');
 }

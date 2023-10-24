@@ -6,6 +6,9 @@ const security = require('./security');
 const app = express();
 const bodyParser = require('body-parser');
 
+// This is the test secret API key.
+const stripe = require('stripe')('sk_test_qZRYpxvqiMTgESmzrZz1llKL00fbSvn5Wz');
+
 // Middleware
 //app.use(express.json());
 //app.use(express.json({ limit: '50mb' }));

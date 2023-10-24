@@ -1,0 +1,32 @@
+date,2023-09-24,,,,,,,,,,,,,,,,,,
+home_score,39,,,,,,,,,,,,,,,,,,
+away_score,63,,,,,,,,,,,,,,,,,,
+location,"Veteran's Hall, Grass Valley CA",,,,,,,,,,,,,,,,,,
+season_id,1,,,,,,,,,,,,,,,,,,
+home_team,1,,,,,,,,,,,,,,,,,,
+away_team,4,,,,,,,,,,,,,,,,,,
+referee1,Carl,,,,,,,,,,,,,,,,,,
+referee2,Kathy,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,Tule's Titans,,,ID,PLAYED?,2A,2M,3A,3M,FTA,FTM,OR,DR,AST,STL,BLK,TO,F,P
+home_stat,7,Tule,Edwards,1,T,9,2,3,0,0,0,0,5,4,1,1,3,1,4
+home_stat,4,Ben,Maselli,6,F,,,,,,,,,,,,,,0
+home_stat,18,Chris,Mahurin,9,T,2,0,3,0,0,0,0,3,0,1,0,2,0,0
+home_stat,9,John,Hoyt,14,T,2,1,1,0,0,0,0,3,0,0,0,0,0,2
+home_stat,33,Nick,Barry,22,T,8,7,5,1,2,1,1,3,5,1,0,4,1,18
+home_stat,13,Christian,Rotunno,23,T,3,2,1,0,0,0,2,2,0,0,0,2,2,4
+home_stat,52,Arend,Hall,26,T,3,0,0,0,2,0,1,5,1,0,5,0,0,0
+home_stat,0,Tomas,Armijo,30,F,,,,,,,,,,,,,,0
+home_stat,1,Dylan,Ramirez,31,T,6,4,2,1,0,0,0,1,5,1,0,2,0,11
+,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,
+,Ryan's Wos Wangeles Wakers,,,ID,Played,2A,2M,3A,3M,FTA,FTM,OR,DR,AST,STL,BLK,TO,F,P
+away_stat,3,Ryan,Clark,4,T,6,2,6,4,4,2,1,7,4,1,2,2,3,18
+away_stat,33,Chris,Wheeler,7,T,8,1,4,3,0,0,1,3,0,1,0,0,0,11
+away_stat,21,Michael,White,16,T,2,1,2,1,0,0,0,6,1,1,0,1,0,5
+away_stat,7,Iain,Dooly,17,F,,,,,,,,,,,,,,0
+away_stat,22,Evan,Portier,24,T,2,1,0,0,2,1,2,3,6,2,0,3,3,3
+away_stat,10,Eric,Andreson,28,T,5,0,4,1,0,0,0,2,0,2,0,2,1,3
+away_stat,2,Cadian,Ramirez,32,F,,,,,,,,,,,,,,0
+away_stat,12,Owen,McIver,34,T,9,2,0,0,0,0,6,4,4,1,1,0,0,4
+away_stat,4,Aiden,Panock,35,T,5,2,9,5,0,0,1,1,2,1,0,2,2,19

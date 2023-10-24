@@ -1,18 +1,31 @@
 import * as fs from 'fs';
 import * as Papa from 'papaparse';
+import { GameInfo } from './types';
+import { PlayerStat } from './types';
 
 export function csvToData(
   filePath: string,
   gameId: number,
 ): {
-  gameInfo: any;
-  playerStats: Array<object>;
+  gameInfo: GameInfo;
+  playerStats: PlayerStat[];
 } {
   console.log('Entering csvToData:', filePath, gameId);
   const fileContent = fs.readFileSync(filePath, 'utf8');
 
-  const gameInfo: any = {};
-  const playerStats: Array<object> = [];
+  const gameInfo: GameInfo = {
+    game_time: new Date(),
+    home_score: 0,
+    away_score: 0,
+    location: '',
+    season_id: 0,
+    team_home_id: 0,
+    team_away_id: 0,
+    referee1: '',
+    referee2: '',
+  };
+
+  const playerStats: PlayerStat[] = [];
   let team = ''; // To track the current team being processed
 
   Papa.parse(fileContent, {
@@ -42,40 +55,82 @@ export function csvToData(
           gameInfo.referee1 = row[1];
         } else if (row[0] == 'referee2') {
           gameInfo.referee2 = row[1];
-        } else if (row[0] == 'player_stat') {
+        } else if (row[0] == 'home_stat' || row[0] == 'away_stat') {
           //Only add if they played
-          if (Boolean(row[5]) == true) {
-            const playerStat = {
-              player_id: parseInt(row[4], 10),
-              game_id: gameId,
-              twos_attempted: parseInt(row[6], 10) || 0,
-              twos_made: parseInt(row[7], 10) || 0,
-              threes_attempted: parseInt(row[8], 10) || 0,
-              threes_made: parseInt(row[9], 10) || 0,
-              freethrows_attempted: parseInt(row[10], 10) || 0,
-              freethrows_made: parseInt(row[11], 10) || 0,
-              offensive_rebounds: parseInt(row[12], 10) || 0,
-              defensive_rebounds: parseInt(row[13], 10) || 0,
-              assists: parseInt(row[14], 10) || 0,
-              steals: parseInt(row[15], 10) || 0,
-              blocks: parseInt(row[16], 10) || 0,
-              turnovers: parseInt(row[17], 10) || 0,
-              fouls: parseInt(row[18], 10) || 0,
-              //calculate points scored
-              points:
-                (parseInt(row[7], 10) || 0) * 2 +
-                  (parseInt(row[9], 10) || 0) * 3 +
-                  parseInt(row[11], 10) || 0,
-            };
+          let playerStat: any = {
+            player_id: parseInt(row[4], 10),
+            game_id: gameId,
+          };
+          console.log('Player true: ', playerStat, row);
+          if (row[5] == 'T') {
+            //if somehow a number wasnt entered, set to null
+            playerStat.twos_attempted = parseInt(row[6], 10);
+            playerStat.twos_attempted = isNaN(parseInt(row[6], 10))
+              ? null
+              : parseInt(row[6], 10);
+            playerStat.twos_made = isNaN(parseInt(row[7], 10))
+              ? null
+              : parseInt(row[7], 10);
 
-            playerStats.push(playerStat);
+            playerStat.threes_attempted = isNaN(parseInt(row[8], 10))
+              ? null
+              : parseInt(row[8], 10);
+
+            playerStat.threes_made = isNaN(parseInt(row[9], 10))
+              ? null
+              : parseInt(row[9], 10);
+
+            playerStat.freethrows_attempted = isNaN(parseInt(row[10], 10))
+              ? null
+              : parseInt(row[10], 10);
+
+            playerStat.freethrows_made = isNaN(parseInt(row[11], 10))
+              ? null
+              : parseInt(row[11], 10);
+
+            playerStat.offensive_rebounds = isNaN(parseInt(row[12], 10))
+              ? null
+              : parseInt(row[12], 10);
+            playerStat.defensive_rebounds = isNaN(parseInt(row[13], 10))
+              ? null
+              : parseInt(row[13], 10);
+            playerStat.assists = isNaN(parseInt(row[14], 10))
+              ? null
+              : parseInt(row[14], 10);
+            playerStat.steals = isNaN(parseInt(row[15], 10))
+              ? null
+              : parseInt(row[16], 10);
+            playerStat.blocks = isNaN(parseInt(row[16], 10))
+              ? null
+              : parseInt(row[16], 10);
+
+            playerStat.turnovers = isNaN(parseInt(row[17], 10))
+              ? null
+              : parseInt(row[17], 10);
+
+            playerStat.fouls = isNaN(parseInt(row[18], 10))
+              ? null
+              : parseInt(row[18], 10);
+
+            playerStat.played = true;
+            //calculate points scored
+            playerStat.points =
+              (parseInt(row[7], 10) || 0) * 2 +
+                (parseInt(row[9], 10) || 0) * 3 +
+                parseInt(row[11], 10) || 0;
+            playerStat.home = row[0] == 'home_stat';
+
+            console.log('playerStat', playerStat);
+          } else {
+            playerStat.played = false;
+            playerStat.home = row[0] == 'home_stat';
           }
+
+          playerStats.push(playerStat);
         }
       });
     },
   });
-
-  console.log('GAME INFO', gameInfo);
 
   return {
     gameInfo,

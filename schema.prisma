@@ -95,7 +95,8 @@ model playerstats {
   id                   Int      @id @default(autoincrement())
   player_id            Int?
   game_id              Int?
-  home                 Boolean?
+  home                 Boolean
+  played               Boolean
   twos_attempted       Int?
   twos_made            Int?
   minutes_played       Int?
