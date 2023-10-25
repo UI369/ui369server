@@ -99,7 +99,7 @@ export function csvToData(
               : parseInt(row[14], 10);
             playerStat.steals = isNaN(parseInt(row[15], 10))
               ? null
-              : parseInt(row[16], 10);
+              : parseInt(row[15], 10);
             playerStat.blocks = isNaN(parseInt(row[16], 10))
               ? null
               : parseInt(row[16], 10);
