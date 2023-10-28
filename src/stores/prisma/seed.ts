@@ -442,6 +442,23 @@ async function main() {
       position: [player_position_type.PF, player_position_type.C],
       shirt_size: shirt_size_type.XXXL,
     },
+    // {
+    //   //player_id:37
+    //   first_name: 'Legion of',
+    //   last_name: 'Subs',
+    //   birthdate: new Date('1900-01-01'),
+    //   height: 84,
+    //   weight: 333,
+    //   sex: 'N',
+    //   position: [
+    //     player_position_type.PG,
+    //     player_position_type.SG,
+    //     player_position_type.SF,
+    //     player_position_type.PF,
+    //     player_position_type.C,
+    //   ],
+    //   shirt_size: shirt_size_type.XXXXXL,
+    // },
   ];
 
   await prisma.players.createMany({ data: playersData as any });
@@ -525,13 +542,12 @@ async function main() {
     console.log('seeding games and players');
     for (let i = 0; i < gameFiles.length; i++) {
       const data = csvToData(gameFiles[i], i + 1); // Assuming gameId starts from 1 and increments
-      console.log('data', data);
+
       // Insert game info
+      console.log('data.gameInfo', data.gameInfo);
       await prisma.games.create({
         data: data.gameInfo,
       });
-
-      console.log('playerstats:', data.playerStats);
 
       const playerStatsData: PlayerStat[] = data.playerStats;
       await prisma.playerstats.createMany({
